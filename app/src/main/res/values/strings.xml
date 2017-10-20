@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">StructutredNotepad</string>
+    <string name="note_title_hint">Enter a title for the note</string>
+    <string name="note_title_label">Title</string>
+    <string name="note_details_label">Details</string>
+    <string name="date_picker_title">Choose Date</string>
+    <string name="new_note">New Note</string>
+    <string name="show_subtitle">Show Subtitle</string>
+    <string name="hide_subtitle">Hide Subtitle</string>
+    <string name="subtitle_format">%1$d notes</string>
+    <string name="delete_note">Delete Note</string>
+    <string name="share_note">Share Note</string>
+    <plurals name="subtitle_plural">
+        <item quantity="one">%1$d note</item>
+        <item quantity="other">%1$d notes</item>
+    </plurals>
+    <string name="note_share_contents">%1$s\n---------------------\n%2$s\n
+    --------------------\n%3$s</string>
+    <string name="lock_note">Lock Note</string>
+</resources>
