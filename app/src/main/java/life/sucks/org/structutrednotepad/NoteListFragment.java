@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
@@ -34,10 +35,14 @@ public class NoteListFragment extends Fragment{
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
 
     private RecyclerView mNoteRecyclerView;
+    @SuppressWarnings("FieldCanBeLocal")
     private Toolbar tb;
     private NoteAdapter mAdapter;
     private boolean mSubtitleVisible;
     private Note mNote;
+
+    //Note: These are implementations of new material design (They're attempts at least)
+    private Button mAddNoteButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -49,6 +54,7 @@ public class NoteListFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_note_list, container, false);
 
+        mAddNoteButton = (Button) view.findViewById(R.id.add_note_button_fragment_note_list);
         mNoteRecyclerView = (RecyclerView) view.findViewById(R.id.note_recycler_view);
         //mNoteRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //mNoteRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
@@ -60,6 +66,16 @@ public class NoteListFragment extends Fragment{
         if (savedInstanceState != null){
             mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
         }
+
+        mAddNoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Note note = new Note();
+                NoteLab.get(getActivity()).addNote(note);
+                Intent intent = NotePagerActivity.newIntent(getActivity(), note.getId());
+                startActivity(intent);
+            }
+        });
 
         updateUI();
 
@@ -122,8 +138,13 @@ public class NoteListFragment extends Fragment{
             //Toast.makeText(getActivity(), mNote.getTitle()+" clicked!", Toast.LENGTH_SHORT).show();
             //Intent intent = new Intent(getActivity(), NoteActivity.class);
             //Intent intent = NoteActivity.newIntent(getActivity(), mNote.getId());
-            Intent inten = NotePagerActivity.newIntent(getActivity(), mNote.getId());
-            startActivity(inten);
+            if (!mNote.isLocked()) {
+                Intent inten = NotePagerActivity.newIntent(getActivity(), mNote.getId());
+                startActivity(inten);
+            } else {
+                Intent fingerprint = new Intent(getContext(), NotePasswordActivity.class);
+                startActivity(fingerprint);
+            }
         }
 
     }
@@ -262,6 +283,8 @@ public class NoteListFragment extends Fragment{
                 i = Intent.createChooser(i, "Send "+ mNote.getTitle());
                 startActivity(i);
                 return true;
+            case R.id.context_menu_item_lock:
+                mNote.setLocked(!mNote.isLocked());
             default:
                 return super.onContextItemSelected(item);
         }

@@ -15,6 +15,17 @@
         <item quantity="other">%1$d notes</item>
     </plurals>
     <string name="note_share_contents">%1$s\n---------------------\n%2$s\n
-    --------------------\n%3$s</string>
+        --------------------\n%3$s
+    </string>
     <string name="lock_note">Lock Note</string>
+    <string name="add_note">Take a note...</string>
+
+    <!--Note: These are imported from old project-->
+    <string name="desc_fingerprint">Please place your fingertip on the scanner to verify your
+        identity
+    </string>
+
+    <string name="title_fingerprint">One-touch Sign In</string>
+
+
 </resources>
