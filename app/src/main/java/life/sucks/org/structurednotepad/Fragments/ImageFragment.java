@@ -1,4 +1,4 @@
-package life.sucks.org.structutrednotepad;
+package life.sucks.org.structurednotepad.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -10,10 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-
-import java.util.Date;
-
+import life.sucks.org.structurednotepad.PictureUtils;
+import life.sucks.org.structurednotepad.R;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**

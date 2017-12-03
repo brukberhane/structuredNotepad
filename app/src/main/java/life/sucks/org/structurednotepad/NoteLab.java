@@ -1,4 +1,4 @@
-package life.sucks.org.structutrednotepad;
+package life.sucks.org.structurednotepad;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import life.sucks.org.structutrednotepad.database.NoteBaseHelper;
-import life.sucks.org.structutrednotepad.database.NoteCursorWrapper;
-import life.sucks.org.structutrednotepad.database.NoteDbSchema.NoteTable;
+import life.sucks.org.structurednotepad.database.NoteBaseHelper;
+import life.sucks.org.structurednotepad.database.NoteCursorWrapper;
+import life.sucks.org.structurednotepad.database.NoteDbSchema.NoteTable;
 
 public class NoteLab {
 

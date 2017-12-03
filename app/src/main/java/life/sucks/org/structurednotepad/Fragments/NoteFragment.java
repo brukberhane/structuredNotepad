@@ -1,7 +1,6 @@
-package life.sucks.org.structutrednotepad;
+package life.sucks.org.structurednotepad.Fragments;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -15,13 +14,10 @@ import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.text.format.DateFormat;
 import android.widget.ImageButton;
@@ -30,6 +26,11 @@ import android.widget.ImageView;
 import java.io.File;
 import java.util.Date;
 import java.util.UUID;
+
+import life.sucks.org.structurednotepad.Note;
+import life.sucks.org.structurednotepad.NoteLab;
+import life.sucks.org.structurednotepad.PictureUtils;
+import life.sucks.org.structurednotepad.R;
 
 public class NoteFragment extends Fragment{
 
@@ -47,6 +48,14 @@ public class NoteFragment extends Fragment{
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private PackageManager packageManager;
+    private Callbacks mCallBacks;
+
+    /**
+     * Required interface for hosting activities
+     */
+    public interface Callbacks{
+        void onNoteUpdated(Note note);
+    }
 
     public static NoteFragment newInstance(UUID noteId){
         Bundle args = new Bundle();
@@ -55,6 +64,12 @@ public class NoteFragment extends Fragment{
         NoteFragment fragment = new NoteFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        mCallBacks = (Callbacks)activity;
     }
 
     @Override
@@ -83,6 +98,12 @@ public class NoteFragment extends Fragment{
     }
 
     @Override
+    public void onDetach(){
+        super.onDetach();
+        mCallBacks = null;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_note, container, false);
 
@@ -97,6 +118,7 @@ public class NoteFragment extends Fragment{
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mNote.setTitle(s.toString());
+                updateNote();
             }
 
             @Override
@@ -186,10 +208,16 @@ public class NoteFragment extends Fragment{
         if (requestCode == REQUEST_DATE){
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mNote.setDate(date);
+            updateNote();
             updateDate();
         } else if (requestCode == REQUEST_PHOTO){
             updatePhotoView();
         }
+    }
+
+    private void updateNote(){
+        NoteLab.get(getActivity()).updateNote(mNote);
+        mCallBacks.onNoteUpdated(mNote);
     }
 
     private void updateDate() {
@@ -197,11 +225,11 @@ public class NoteFragment extends Fragment{
                 .format("EEEE, MMM dd, yyyy", mNote.getDate()));
     }
 
-    @Override
+    /*@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.note_menu, menu);
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){

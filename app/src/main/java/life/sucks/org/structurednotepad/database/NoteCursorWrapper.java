@@ -1,4 +1,4 @@
-package life.sucks.org.structutrednotepad.database;
+package life.sucks.org.structurednotepad.database;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
@@ -6,8 +6,8 @@ import android.database.CursorWrapper;
 import java.util.Date;
 import java.util.UUID;
 
-import life.sucks.org.structutrednotepad.Note;
-import life.sucks.org.structutrednotepad.database.NoteDbSchema.NoteTable;
+import life.sucks.org.structurednotepad.Note;
+import life.sucks.org.structurednotepad.database.NoteDbSchema.NoteTable;
 
 public class NoteCursorWrapper extends CursorWrapper{
 

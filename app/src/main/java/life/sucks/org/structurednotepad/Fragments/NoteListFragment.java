@@ -1,79 +1,113 @@
-package life.sucks.org.structutrednotepad;
+package life.sucks.org.structurednotepad.Fragments;
 
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.format.DateFormat;
-import android.util.AttributeSet;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
 import java.util.List;
+import java.util.UUID;
+
+import life.sucks.org.structurednotepad.Note;
+import life.sucks.org.structurednotepad.NoteLab;
+import life.sucks.org.structurednotepad.Activities.NotePagerActivity;
+import life.sucks.org.structurednotepad.Activities.NotePasswordActivity;
+import life.sucks.org.structurednotepad.R;
 
 public class NoteListFragment extends Fragment{
 
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
+    private static final int REQUEST_PASSWORD_FOR_CHANGE_LOCK = 2;
+    private static final int REQUEST_PASSWORD_FOR_ACCESS_LOCK = 3;
+    @SuppressWarnings("FieldCanBeLocal")
+    private static String EXTRA_NOTE_ID = "NOTE_ID";
 
     private RecyclerView mNoteRecyclerView;
+    private TextView EmptyView;
     @SuppressWarnings("FieldCanBeLocal")
     private Toolbar tb;
     private NoteAdapter mAdapter;
     private boolean mSubtitleVisible;
     private Note mNote;
+    private Callbacks mCallbacks;
+    private CBacks mCBacks;
+    private boolean isTab;
 
-    //Note: These are implementations of new material design (They're attempts at least)
-    private Button mAddNoteButton;
+
+    /**
+     * Required interface for hosting activities.
+     */
+    public interface Callbacks{
+        void onNoteSelected(Note note);
+    }
+
+    /**
+     * Interface for adjusting list view for tabs
+     */
+    public interface CBacks {
+        void onCreated();
+    }
+
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        mCallbacks = (Callbacks) activity;
+        mCBacks = (CBacks) activity;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        setRetainInstance(true);
+        mCBacks.onCreated();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_note_list, container, false);
 
-        mAddNoteButton = (Button) view.findViewById(R.id.add_note_button_fragment_note_list);
-        mNoteRecyclerView = (RecyclerView) view.findViewById(R.id.note_recycler_view);
+        Button addNoteButton = view.findViewById(R.id.add_note_button_fragment_note_list);
+        mNoteRecyclerView = view.findViewById(R.id.note_recycler_view);
+        EmptyView = view.findViewById(R.id.empty_view);
+
         //mNoteRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //mNoteRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        mNoteRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, 1));
+        if (!isTab) {
+            mNoteRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, 1));
+        } else {
+            mNoteRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        }
 
-        tb = (Toolbar) view.findViewById(R.id.note_list_toolbar);
+        tb = view.findViewById(R.id.note_list_toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(tb);
 
         if (savedInstanceState != null){
             mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
         }
 
-        mAddNoteButton.setOnClickListener(new View.OnClickListener() {
+        addNoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Note note = new Note();
                 NoteLab.get(getActivity()).addNote(note);
-                Intent intent = NotePagerActivity.newIntent(getActivity(), note.getId());
-                startActivity(intent);
+                updateUI();
+                mCallbacks.onNoteSelected(note);
             }
         });
 
@@ -82,7 +116,7 @@ public class NoteListFragment extends Fragment{
         return view;
     }
 
-    private void updateUI(){
+    public void updateUI(){
         NoteLab noteLab = NoteLab.get(getActivity());
         List<Note> notes = noteLab.getNotes();
 
@@ -92,6 +126,14 @@ public class NoteListFragment extends Fragment{
         } else {
             mAdapter.setNotes(notes);
             mAdapter.notifyDataSetChanged();
+        }
+
+        if (mAdapter.mNotes.isEmpty()){
+            mNoteRecyclerView.setVisibility(View.GONE);
+            EmptyView.setVisibility(View.VISIBLE);
+        } else {
+            mNoteRecyclerView.setVisibility(View.VISIBLE);
+            EmptyView.setVisibility(View.GONE);
         }
 
         updateSubtitle();
@@ -126,11 +168,15 @@ public class NoteListFragment extends Fragment{
             mNote = note;
             mTitleTextView.setText(mNote.getTitle());
             mDateTextView.setText(DateFormat.format("EEE, MMM dd", mNote.getDate()));
-            if (!note.isLocked()){
-                if(1 == 1) {
+
+            if (!isTab) {
+                if (!note.isLocked()) {
                     mContentTextView.setText(mNote.getContent());
+                } else {
+                    mContentTextView.setText("");
                 }
             }
+
         }
 
         @Override
@@ -139,11 +185,10 @@ public class NoteListFragment extends Fragment{
             //Intent intent = new Intent(getActivity(), NoteActivity.class);
             //Intent intent = NoteActivity.newIntent(getActivity(), mNote.getId());
             if (!mNote.isLocked()) {
-                Intent inten = NotePagerActivity.newIntent(getActivity(), mNote.getId());
-                startActivity(inten);
+                mCallbacks.onNoteSelected(mNote);
             } else {
-                Intent fingerprint = new Intent(getContext(), NotePasswordActivity.class);
-                startActivity(fingerprint);
+                Intent fingerprint = NotePasswordActivity.newInstance(getActivity(), mNote.getId());
+                startActivityForResult(fingerprint, REQUEST_PASSWORD_FOR_ACCESS_LOCK);
             }
         }
 
@@ -195,17 +240,25 @@ public class NoteListFragment extends Fragment{
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_note_list, menu);
-
-        MenuItem subtitleItem = menu.findItem(R.id.menu_item_show_subtitle);
-        if (mSubtitleVisible){
-            subtitleItem.setTitle(R.string.hide_subtitle);
-        } else {
-            subtitleItem.setTitle(R.string.show_subtitle);
-        }
+    public void onDetach(){
+        super.onDetach();
+        mCallbacks = null;
+        mCBacks = null;
     }
+
+    //NOTE: This code is not going to be used.
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.fragment_note_list, menu);
+//
+//        MenuItem subtitleItem = menu.findItem(R.id.menu_item_show_subtitle);
+//        if (mSubtitleVisible){
+//            subtitleItem.setTitle(R.string.hide_subtitle);
+//        } else {
+//            subtitleItem.setTitle(R.string.show_subtitle);
+//        }
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -247,7 +300,7 @@ public class NoteListFragment extends Fragment{
 
         getActivity().getMenuInflater().inflate(R.menu.fragment_list_context_menu, menu);
 
-        MenuItem lock = menu.findItem(R.id.context_menu_item_lock).setChecked(mNote.isLocked());
+        menu.findItem(R.id.context_menu_item_lock).setChecked(mNote.isLocked());
 
     }
 
@@ -284,14 +337,56 @@ public class NoteListFragment extends Fragment{
                 startActivity(i);
                 return true;
             case R.id.context_menu_item_lock:
-                mNote.setLocked(!mNote.isLocked());
+                Intent fingerprint = NotePasswordActivity.newInstance(getActivity(), mNote.getId());
+                //new Intent(getActivity(), NotePasswordActivity.class);
+                //fingerprint.putExtra(EXTRA_NOTE_ID, mNote.getId());
+                startActivityForResult(fingerprint, REQUEST_PASSWORD_FOR_CHANGE_LOCK);
             default:
                 return super.onContextItemSelected(item);
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent){
+        if (resultCode == Activity.RESULT_OK){
+
+            switch (requestCode){
+
+                case REQUEST_PASSWORD_FOR_CHANGE_LOCK:
+
+                    mNote = NoteLab.get(getActivity())
+                            .getNote((UUID)intent.getSerializableExtra(EXTRA_NOTE_ID));
+
+                    mNote.setLocked(!mNote.isLocked());
+                    NoteLab.get(getActivity()).updateNote(mNote);
+
+                    updateUI();
+
+                    break;
+
+                case REQUEST_PASSWORD_FOR_ACCESS_LOCK:
+
+                    mNote = NoteLab.get(getActivity())
+                            .getNote((UUID)intent.getSerializableExtra(EXTRA_NOTE_ID));
+
+                    mCallbacks.onNoteSelected(mNote);
+
+                    break;
+
+                default:
+
+                    break;
+            }
+
+        }
+    }
+
     public void setTempNote(Note note){
         mNote = note;
+    }
+
+    public void setIsTab(boolean n){
+        isTab = n;
     }
 
 }

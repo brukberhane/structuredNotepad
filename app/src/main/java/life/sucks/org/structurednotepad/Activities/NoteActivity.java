@@ -1,14 +1,13 @@
-package life.sucks.org.structutrednotepad;
+package life.sucks.org.structurednotepad.Activities;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import java.util.UUID;
+
+import life.sucks.org.structurednotepad.Fragments.NoteFragment;
+import life.sucks.org.structurednotepad.SingleFragmentActivity;
 
 public class NoteActivity extends SingleFragmentActivity {
 

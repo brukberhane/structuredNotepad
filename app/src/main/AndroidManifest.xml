@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="life.sucks.org.structutrednotepad">
+          xmlns:tools="http://schemas.android.com/tools" package="life.sucks.org.structurednotepad">
 
     <uses-feature
         android:name="android.hardware.camera2"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.fingerprint"
         android:required="false"/>
 
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
@@ -16,17 +19,23 @@
         android:testOnly="false"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".NotePagerActivity"
-            android:parentActivityName=".NoteListActivity">
+            android:name="life.sucks.org.structurednotepad.Activities.NotePagerActivity"
+            android:parentActivityName="life.sucks.org.structurednotepad.Activities.NoteListActivity"
+            tools:ignore="InnerclassSeparator">
         </activity>
-        <activity android:name=".NoteListActivity">
+        <activity
+            android:name="life.sucks.org.structurednotepad.Activities.NoteListActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".NotePasswordActivity">
+        <activity
+            android:name="life.sucks.org.structurednotepad.Activities.NotePasswordActivity"
+            tools:ignore="InnerclassSeparator">
         </activity>
     </application>
 

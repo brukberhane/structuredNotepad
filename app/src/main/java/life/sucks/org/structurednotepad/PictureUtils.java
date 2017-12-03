@@ -1,4 +1,4 @@
-package life.sucks.org.structutrednotepad;
+package life.sucks.org.structurednotepad;
 
 import android.app.Activity;
 import android.graphics.Bitmap;

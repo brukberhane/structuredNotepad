@@ -1,10 +1,10 @@
-package life.sucks.org.structutrednotepad.database;
+package life.sucks.org.structurednotepad.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import life.sucks.org.structutrednotepad.database.NoteDbSchema.NoteTable;
+import life.sucks.org.structurednotepad.database.NoteDbSchema.NoteTable;
 
 public class NoteBaseHelper extends SQLiteOpenHelper{
 

@@ -1,4 +1,4 @@
-package life.sucks.org.structutrednotepad;
+package life.sucks.org.structurednotepad;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -8,17 +8,18 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.widget.TextView;
+
+import java.util.UUID;
 
 @TargetApi(Build.VERSION_CODES.M)
 public class FingerprintHandler extends FingerprintManager.AuthenticationCallback {
 
 
     private Context context;
+    private static String EXTRA_NOTE_ID = "NOTE_ID";
 
     // Constructor
     public FingerprintHandler(Context mContext) {
@@ -61,9 +62,11 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
     public void update(String e, Boolean success) {
         TextView textView = (TextView) ((Activity) context).findViewById(R.id.errorText);
-        textView.setText(e);
+        //textView.setText(e);
+        UUID noteId = (UUID)((Activity) context).getIntent().getSerializableExtra(EXTRA_NOTE_ID);
         if (success) {
             Intent returnintent = new Intent();
+            returnintent.putExtra(EXTRA_NOTE_ID, noteId);
             ((Activity) context).setResult(Activity.RESULT_OK, returnintent);
             ((Activity) context).finish();
         }

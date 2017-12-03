@@ -4,6 +4,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="colorPrimaryDark">#FFD7CCC8</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
@@ -11,6 +13,8 @@
     <style name="AppThemeCustom" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="colorPrimaryDark">#FFD7CCC8</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>

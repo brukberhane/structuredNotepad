@@ -1,20 +1,23 @@
-package life.sucks.org.structutrednotepad;
+package life.sucks.org.structurednotepad.Activities;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import java.util.List;
 import java.util.UUID;
 
-public class NotePagerActivity extends AppCompatActivity{
+import life.sucks.org.structurednotepad.Fragments.NoteFragment;
+import life.sucks.org.structurednotepad.Note;
+import life.sucks.org.structurednotepad.NoteLab;
+import life.sucks.org.structurednotepad.R;
+
+public class NotePagerActivity extends AppCompatActivity implements NoteFragment.Callbacks{
 
     private static final String EXTRA_NOTE_ID = "com.bignerdranch.android.criminalintent.crime_id";
 
@@ -25,6 +28,10 @@ public class NotePagerActivity extends AppCompatActivity{
         Intent intent = new Intent(packageContext, NotePagerActivity.class);
         intent.putExtra(EXTRA_NOTE_ID, noteId);
         return intent;
+    }
+
+    public void onNoteUpdated(Note note){
+
     }
 
     @Override

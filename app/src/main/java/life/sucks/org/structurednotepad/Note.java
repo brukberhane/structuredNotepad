@@ -1,4 +1,4 @@
-package life.sucks.org.structutrednotepad;
+package life.sucks.org.structurednotepad;
 
 import java.util.Date;
 import java.util.UUID;

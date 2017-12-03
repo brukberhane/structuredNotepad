@@ -1,4 +1,4 @@
-package life.sucks.org.structutrednotepad.database;
+package life.sucks.org.structurednotepad.database;
 
 public class NoteDbSchema {
 

@@ -1,12 +1,10 @@
-package life.sucks.org.structutrednotepad;
+package life.sucks.org.structurednotepad.Fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.KeyguardManager;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
@@ -36,6 +34,9 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+
+import life.sucks.org.structurednotepad.FingerprintHandler;
+import life.sucks.org.structurednotepad.R;
 
 import static android.content.Context.FINGERPRINT_SERVICE;
 import static android.content.Context.KEYGUARD_SERVICE;
@@ -69,7 +70,7 @@ public class FingerprintFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState){
         final Dialog dialog = new Dialog(getActivity());
         @SuppressLint("InflateParams") final View view = LayoutInflater.from(getActivity())
-                .inflate(R.layout.image_view_detail, null);
+                .inflate(R.layout.fragment_fingerprint, null);
         textView = view.findViewById(R.id.errorText);
 
 
