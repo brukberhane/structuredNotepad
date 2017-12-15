@@ -63,6 +63,7 @@ public class NoteListFragment extends Fragment{
         void onCreated();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity){
         super.onAttach(activity);
@@ -146,7 +147,7 @@ public class NoteListFragment extends Fragment{
         private TextView mContentTextView;
         private Note mNote;
 
-        public NoteHolder(View itemView){
+        NoteHolder(View itemView){
             super(itemView);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -164,7 +165,7 @@ public class NoteListFragment extends Fragment{
 
         }
 
-        public void bindNote(Note note){
+        void bindNote(Note note){
             mNote = note;
             mTitleTextView.setText(mNote.getTitle());
             mDateTextView.setText(DateFormat.format("EEE, MMM dd", mNote.getDate()));

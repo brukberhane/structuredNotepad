@@ -11,6 +11,8 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -42,13 +44,17 @@ public class NoteFragment extends Fragment{
 
     private Note mNote;
     private File mPhotoFile;
+    @SuppressWarnings("FieldCanBeLocal")
     private EditText mTitleField;
     private Button mDateButton;
+    @SuppressWarnings("FieldCanBeLocal")
     private EditText mContentField;
+    @SuppressWarnings("FieldCanBeLocal")
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private PackageManager packageManager;
     private Callbacks mCallBacks;
+    private Toolbar mToolbar;
 
     /**
      * Required interface for hosting activities
@@ -66,6 +72,7 @@ public class NoteFragment extends Fragment{
         return fragment;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity){
         super.onAttach(activity);
@@ -74,6 +81,7 @@ public class NoteFragment extends Fragment{
 
     @Override
     public void onCreate(Bundle savedInstaneState){
+
         super.onCreate(savedInstaneState);
         setHasOptionsMenu(true);
         //mNote = new Note();
@@ -107,7 +115,22 @@ public class NoteFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_note, container, false);
 
-        mTitleField = (EditText) v.findViewById(R.id.note_title);
+        mToolbar = v.findViewById(R.id.toolbar_fragment_note);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+
+        if (mNote.getTitle() == null){
+            mToolbar.setTitle("New note");
+        } else {
+            mToolbar.setTitle(mNote.getTitle());
+        }
+        //noinspection ConstantConditions
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //noinspection ConstantConditions
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(
+                R.drawable.ic_menu_close
+        );
+
+        mTitleField = v.findViewById(R.id.note_title);
         mTitleField.setText(mNote.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -118,6 +141,7 @@ public class NoteFragment extends Fragment{
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mNote.setTitle(s.toString());
+                mToolbar.setTitle(s.toString());
                 updateNote();
             }
 
@@ -127,7 +151,7 @@ public class NoteFragment extends Fragment{
             }
         });
 
-        mDateButton = (Button) v.findViewById(R.id.note_date);
+        mDateButton = v.findViewById(R.id.note_date);
         //mDateButton.setText(mNote.getDate().toString());
         mDateButton.requestFocus();
         updateDate();
@@ -143,7 +167,7 @@ public class NoteFragment extends Fragment{
             }
         });
 
-        mContentField = (EditText) v.findViewById(R.id.note_content);
+        mContentField = v.findViewById(R.id.note_content);
         mContentField.setText(mNote.getContent());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mContentField.setNestedScrollingEnabled(true);
@@ -165,7 +189,7 @@ public class NoteFragment extends Fragment{
             }
         });
 
-        mPhotoButton = (ImageButton) v.findViewById(R.id.note_camera);
+        mPhotoButton = v.findViewById(R.id.note_camera);
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         boolean canTakePhoto = mPhotoFile != null &&
@@ -185,7 +209,7 @@ public class NoteFragment extends Fragment{
         });
 
 
-        mPhotoView = (ImageView) v.findViewById(R.id.note_photo);
+        mPhotoView = v.findViewById(R.id.note_photo);
         updatePhotoView();
         mPhotoView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -245,6 +269,13 @@ public class NoteFragment extends Fragment{
                 i.putExtra(Intent.EXTRA_SUBJECT, "Send "+mNote.getTitle());
                 i = Intent.createChooser(i, "Send "+mNote.getTitle());
                 startActivity(i);
+                return true;
+
+            case android.R.id.home:
+
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .remove(this).commit();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -27,6 +27,7 @@
 
     <string name="title_fingerprint">One-touch Sign In</string>
     <string name="empty_dataset">No Notes? Add one now!!</string>
+    <string name="password_request">Password:</string>
 
 
 </resources>
