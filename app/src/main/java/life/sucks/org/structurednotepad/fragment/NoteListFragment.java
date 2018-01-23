@@ -1,4 +1,4 @@
-package life.sucks.org.structurednotepad.Fragments;
+package life.sucks.org.structurednotepad.fragment;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -25,8 +25,8 @@ import java.util.UUID;
 
 import life.sucks.org.structurednotepad.Note;
 import life.sucks.org.structurednotepad.NoteLab;
-import life.sucks.org.structurednotepad.Activities.NotePagerActivity;
-import life.sucks.org.structurednotepad.Activities.NotePasswordActivity;
+import life.sucks.org.structurednotepad.activity.NotePagerActivity;
+import life.sucks.org.structurednotepad.activity.NotePasswordActivity;
 import life.sucks.org.structurednotepad.R;
 
 public class NoteListFragment extends Fragment{

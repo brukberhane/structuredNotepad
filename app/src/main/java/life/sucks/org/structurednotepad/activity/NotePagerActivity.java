@@ -1,4 +1,4 @@
-package life.sucks.org.structurednotepad.Activities;
+package life.sucks.org.structurednotepad.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.List;
 import java.util.UUID;
 
-import life.sucks.org.structurednotepad.Fragments.NoteFragment;
+import life.sucks.org.structurednotepad.fragment.NoteFragment;
 import life.sucks.org.structurednotepad.Note;
 import life.sucks.org.structurednotepad.NoteLab;
 import life.sucks.org.structurednotepad.R;

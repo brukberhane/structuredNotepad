@@ -1,4 +1,4 @@
-package life.sucks.org.structurednotepad.Fragments;
+package life.sucks.org.structurednotepad.fragment;
 
 import android.app.Activity;
 import android.content.Context;

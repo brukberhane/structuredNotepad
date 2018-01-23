@@ -1,4 +1,4 @@
-package life.sucks.org.structurednotepad.Fragments;
+package life.sucks.org.structurednotepad.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;

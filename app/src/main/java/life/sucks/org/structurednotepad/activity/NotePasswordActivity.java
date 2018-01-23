@@ -1,4 +1,4 @@
-package life.sucks.org.structurednotepad.Activities;
+package life.sucks.org.structurednotepad.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +10,8 @@ import android.widget.Toast;
 
 import java.util.UUID;
 
-import life.sucks.org.structurednotepad.Fragments.FingerprintFragment;
-import life.sucks.org.structurednotepad.Fragments.NoteFragment;
-import life.sucks.org.structurednotepad.Fragments.PasswordFragment;
+import life.sucks.org.structurednotepad.fragment.FingerprintFragment;
+import life.sucks.org.structurednotepad.fragment.PasswordFragment;
 import life.sucks.org.structurednotepad.R;
 import life.sucks.org.structurednotepad.SingleFragmentActivity;
 

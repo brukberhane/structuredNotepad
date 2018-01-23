@@ -19,12 +19,12 @@
         android:testOnly="false"
         android:theme="@style/AppTheme">
         <activity
-            android:name="life.sucks.org.structurednotepad.Activities.NotePagerActivity"
-            android:parentActivityName="life.sucks.org.structurednotepad.Activities.NoteListActivity"
+            android:name="life.sucks.org.structurednotepad.activity.NotePagerActivity"
+            android:parentActivityName="life.sucks.org.structurednotepad.activity.NoteListActivity"
             tools:ignore="InnerclassSeparator">
         </activity>
         <activity
-            android:name="life.sucks.org.structurednotepad.Activities.NoteListActivity"
+            android:name="life.sucks.org.structurednotepad.activity.NoteListActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             tools:ignore="InnerclassSeparator">
             <intent-filter>
@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="life.sucks.org.structurednotepad.Activities.NotePasswordActivity"
+            android:name="life.sucks.org.structurednotepad.activity.NotePasswordActivity"
             tools:ignore="InnerclassSeparator">
         </activity>
     </application>
