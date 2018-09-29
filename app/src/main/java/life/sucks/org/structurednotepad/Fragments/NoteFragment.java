@@ -27,6 +27,7 @@ import android.widget.ImageView;
 
 import java.io.File;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 import life.sucks.org.structurednotepad.Note;
@@ -118,11 +119,14 @@ public class NoteFragment extends Fragment{
         mToolbar = v.findViewById(R.id.toolbar_fragment_note);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
 
-        if (mNote.getTitle() == null){
-            mToolbar.setTitle("New note");
-        } else {
-            mToolbar.setTitle(mNote.getTitle());
-        }
+        //TODO: Maybe reimplement this feature or completely remove it
+        mToolbar.setTitle("");
+//        if (mNote.getTitle() == null){
+//            mToolbar.setTitle("New note");
+//        } else {
+//            mToolbar.setTitle(mNote.getTitle());
+//        }
+
         //noinspection ConstantConditions
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //noinspection ConstantConditions
@@ -273,8 +277,7 @@ public class NoteFragment extends Fragment{
 
             case android.R.id.home:
 
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .remove(this).commit();
+                Objects.requireNonNull(getActivity()).finish();
 
                 return true;
             default:
