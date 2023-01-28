@@ -26,7 +26,8 @@
         <activity
             android:name="life.sucks.org.structurednotepad.Activities.NoteListActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            tools:ignore="InnerclassSeparator">
+            tools:ignore="InnerclassSeparator"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

@@ -9,10 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -25,6 +21,11 @@ import android.text.format.DateFormat;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import java.io.File;
 import java.util.Date;
 import java.util.Objects;
@@ -35,7 +36,7 @@ import life.sucks.org.structurednotepad.NoteLab;
 import life.sucks.org.structurednotepad.PictureUtils;
 import life.sucks.org.structurednotepad.R;
 
-public class NoteFragment extends Fragment{
+public class NoteFragment extends Fragment {
 
     private static final String ARG_NOTE_ID = "note_id";
     private static final String DIALOG_DATE = "DialogDate";
@@ -277,7 +278,7 @@ public class NoteFragment extends Fragment{
 
             case android.R.id.home:
 
-                Objects.requireNonNull(getActivity()).finish();
+                requireActivity().finish();
 
                 return true;
             default:

@@ -4,14 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
 import java.util.UUID;
 
 import life.sucks.org.structurednotepad.Fragments.FingerprintFragment;
-import life.sucks.org.structurednotepad.Fragments.NoteFragment;
 import life.sucks.org.structurednotepad.Fragments.PasswordFragment;
 import life.sucks.org.structurednotepad.R;
 import life.sucks.org.structurednotepad.SingleFragmentActivity;

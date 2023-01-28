@@ -4,8 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +18,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * Created by brukb on 6/3/2017.
  */
 
-public class ImageFragment extends DialogFragment{
+public class ImageFragment extends DialogFragment {
 
     public final static String  ARG_PATH = "life.sucks.org.structurednotepad.ARG_PATH";
 

@@ -9,7 +9,7 @@ import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.os.CancellationSignal;
-import android.support.v4.app.ActivityCompat;
+import androidx.core.app.ActivityCompat;
 import android.widget.TextView;
 
 import java.util.UUID;
@@ -18,8 +18,8 @@ import java.util.UUID;
 public class FingerprintHandler extends FingerprintManager.AuthenticationCallback {
 
 
-    private Context context;
-    private static String EXTRA_NOTE_ID = "NOTE_ID";
+    private final Context context;
+    private static final String EXTRA_NOTE_ID = "NOTE_ID";
 
     // Constructor
     public FingerprintHandler(Context mContext) {
